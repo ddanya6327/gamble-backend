@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import * as usersRepository from "../data/users";
+import * as usersRepository from "../data/user";
 
 export async function getUser(req: Request, res: Response): Promise<void> {
   const id: number = parseInt(req.params.id);

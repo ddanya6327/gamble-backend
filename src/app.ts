@@ -7,6 +7,7 @@ import { config } from "../config";
 import { sequelize } from "./db/database";
 
 import userRouter from "./router/users";
+import authRouter from "./router/auth";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(morgan("tiny"));
 
 app.use("/user", userRouter);
+app.use("/auth", authRouter);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.sendStatus(404);
@@ -30,6 +32,6 @@ app.listen(config.host.port, () => {
   console.log("server started");
 });
 
-sequelize.sync().then((client) => {
-  console.log(client);
-});
+// sequelize.sync().then((client) => {
+//   console.log(client);
+// });
