@@ -27,6 +27,38 @@ export async function signup(
   res.status(201).json({ token, name });
 }
 
+export async function login(
+  req: Request,
+  res: Response
+): Promise<void | Response> {
+  const { name, password } = req.body;
+
+  const user = await userRepository.findByName(name);
+  if (!user) {
+    return res.status(401).json({ message: "Invalid user or password" });
+  }
+  const isValidPassword: boolean = await bcrypt.compare(
+    password,
+    user.password
+  );
+  if (!isValidPassword) {
+    return res.status(401).json({ message: "Invalid user or password" });
+  }
+  const token: string = createJwtToken(user.id);
+  res.status(200).json({ token, name });
+}
+
+export async function me(
+  req: Request,
+  res: Response
+): Promise<void | Response> {
+  const user = await userRepository.findById(req.userId!);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  res.status(200).json({ token: req.token, username: user.name });
+}
+
 function createJwtToken(id: number): string {
   return jwt.sign({ id }, config.jwt.secretKey, {
     expiresIn: config.jwt.expiresInSec,
