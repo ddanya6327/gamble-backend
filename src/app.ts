@@ -8,6 +8,9 @@ import { sequelize } from "./db/database";
 
 import userRouter from "./router/users";
 import authRouter from "./router/auth";
+import betRouter from "./router/bets";
+
+import * as betService from "./services/betService";
 
 const app = express();
 
@@ -18,6 +21,7 @@ app.use(morgan("tiny"));
 
 app.use("/user", userRouter);
 app.use("/auth", authRouter);
+app.use("/bet", betRouter);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.sendStatus(404);
@@ -32,6 +36,9 @@ app.listen(config.host.port, () => {
   console.log("server started");
 });
 
-// sequelize.sync().then((client) => {
-//   console.log(client);
-// });
+sequelize.sync().then((client) => {
+  console.log("sync!");
+});
+
+// TODO test
+betService.updateUserBetData();
