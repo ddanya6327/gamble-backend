@@ -1,21 +1,22 @@
 import { sequelize } from "../db/database";
 import { DataTypes, Model, Optional } from "sequelize";
+import { BetInfo } from "../types/betResult";
 
 interface UserBetAttributes {
   id: number;
   userId: number;
-  betInfo: object; // TODO データ型が決まったら修正
+  betInfo: BetInfo;
 }
 
 interface UserBetCreationAttributes extends Optional<UserBetAttributes, "id"> {}
 
-class UserBet
+export class UserBet
   extends Model<UserBetAttributes, UserBetCreationAttributes>
   implements UserBetAttributes
 {
   public id!: number;
   public userId!: number;
-  public betInfo!: JSON;
+  public betInfo!: BetInfo;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -68,5 +69,12 @@ export async function updateById(
   return UserBet.update(data, {
     where: { id },
     returning: true,
+  });
+}
+
+export async function deleteAll(): Promise<void> {
+  await UserBet.destroy({
+    where: {},
+    truncate: true,
   });
 }

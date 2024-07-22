@@ -41,4 +41,11 @@ sequelize.sync().then((client) => {
 });
 
 // TODO test
-betService.updateUserBetData();
+const test = false;
+if (test) {
+  // Betting結果確認
+  betService.createBetResult().then((betResultId) => {
+    console.log("betResultId: ", betResultId);
+    betService.updateUserBetData(betResultId);
+  });
+}

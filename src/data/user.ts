@@ -1,5 +1,5 @@
 import { sequelize } from "../db/database";
-import { DataTypes, Model, Optional } from "sequelize";
+import { DataTypes, Model, Optional, literal } from "sequelize";
 
 interface UserAttributes {
   id: number;
@@ -79,4 +79,21 @@ export async function findByName(name: string): Promise<User | null> {
 
 export async function createUser(user: CreateUser): Promise<number> {
   return User.create(user).then((data) => data.dataValues.id);
+}
+
+export async function updateMoney(
+  id: number,
+  money: number
+): Promise<[number, User[]]> {
+  return User.update(
+    {
+      money: literal(
+        `CASE WHEN money + ${money} < 0 THEN 0 ELSE money + ${money} END`
+      ),
+    },
+    {
+      where: { id },
+      returning: true,
+    }
+  );
 }
