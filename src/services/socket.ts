@@ -13,6 +13,9 @@ class SocketIO {
 
     this.io.on("connection", (socket) => {
       console.log("Socket client connected");
+
+      // TODO Check Betting Result
+      //   setInterval(checkBetsResult, 30000);
     });
   }
 }
@@ -29,3 +32,8 @@ export function getSocketIO(): Server {
   }
   return socket.io;
 }
+
+let checkBetsResult = () => {
+  // TODO checkBetsResult
+  console.log("check bet Result");
+};

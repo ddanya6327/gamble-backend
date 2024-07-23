@@ -11,9 +11,17 @@ import userRouter from "./router/users";
 import authRouter from "./router/auth";
 import betRouter from "./router/bets";
 
+import mypageRouter from "./router/mypage"; // TODO Pahse 1
+import path from "path";
+
 import * as betService from "./services/betService";
 
 const app = express();
+
+// Set ejs (Phase 1)
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static("public"));
 
 app.use(express.json());
 app.use(helmet());
@@ -23,6 +31,8 @@ app.use(morgan("tiny"));
 app.use("/user", userRouter);
 app.use("/auth", authRouter);
 app.use("/bet", betRouter);
+
+app.use("/mypage", mypageRouter); // TODO Phase 1
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.sendStatus(404);
