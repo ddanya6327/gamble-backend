@@ -4,8 +4,10 @@ import { isAuth } from "../middleware/auth";
 
 const router = express.Router();
 
-router.post("/user_bet", isAuth, betController.upsertUserBet);
-
-router.delete("/user_bet", isAuth, betController.deleteUserBet);
+router
+  .route("/user_bet")
+  .get(isAuth, betController.getUserBet)
+  .post(isAuth, betController.upsertUserBet)
+  .delete(isAuth, betController.deleteUserBet);
 
 export default router;

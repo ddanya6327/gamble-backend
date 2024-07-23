@@ -40,3 +40,12 @@ export async function deleteUserBet(
   await userBetsRepository.deleteUserBet(userId);
   res.status(204).send();
 }
+
+export async function getUserBet(
+  req: Request,
+  res: Response
+): Promise<Response | void> {
+  const userId = req.userId!;
+  const userBet = await userBetsRepository.findByUserId(userId);
+  res.status(200).json(userBet);
+}
