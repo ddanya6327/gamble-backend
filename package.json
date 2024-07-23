@@ -21,6 +21,7 @@
     "morgan": "^1.10.0",
     "mysql2": "^3.10.3",
     "sequelize": "^6.37.3",
+    "socket.io": "^4.7.5",
     "typescript": "^5.5.3"
   },
   "devDependencies": {

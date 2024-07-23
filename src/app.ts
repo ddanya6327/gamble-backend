@@ -5,6 +5,7 @@ import cors from "cors";
 
 import { config } from "../config";
 import { sequelize } from "./db/database";
+import { initSocket } from "./services/socket";
 
 import userRouter from "./router/users";
 import authRouter from "./router/auth";
@@ -32,9 +33,10 @@ app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   res.sendStatus(500);
 });
 
-app.listen(config.host.port, () => {
+const appServer = app.listen(config.host.port, () => {
   console.log("server started");
 });
+initSocket(appServer);
 
 sequelize.sync().then((client) => {
   console.log("sync!");
