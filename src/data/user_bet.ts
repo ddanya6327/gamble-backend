@@ -78,3 +78,9 @@ export async function deleteAll(): Promise<void> {
     truncate: true,
   });
 }
+
+export async function deleteUserBet(userId: number): Promise<void> {
+  await UserBet.destroy({
+    where: { userId },
+  });
+}

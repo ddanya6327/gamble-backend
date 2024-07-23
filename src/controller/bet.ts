@@ -28,3 +28,15 @@ export async function upsertUserBet(
 
   res.status(201).json({ result });
 }
+
+export async function deleteUserBet(
+  req: Request,
+  res: Response
+): Promise<void | Response> {
+  const userId = req.userId!;
+  if (!userId) {
+    return res.status(400).json({ message: `Bad Request` });
+  }
+  await userBetsRepository.deleteUserBet(userId);
+  res.status(204).send();
+}

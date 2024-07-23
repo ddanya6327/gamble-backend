@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.post("/user_bet", isAuth, betController.upsertUserBet);
 
+router.delete("/user_bet", isAuth, betController.deleteUserBet);
+
 export default router;
