@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { CookieOptions, Request, Response } from "express";
 import { config } from "./../../config";
 import * as userRepository from "../data/user";
 
@@ -24,6 +24,7 @@ export async function signup(
     password: hashed,
   });
   const token: string = createJwtToken(userId);
+  setToken(res, token);
   res.status(201).json({ token, name });
 }
 
@@ -45,6 +46,7 @@ export async function login(
     return res.status(401).json({ message: "Invalid user or password" });
   }
   const token: string = createJwtToken(user.id);
+  setToken(res, token);
   res.status(200).json({ token, name });
 }
 
@@ -63,4 +65,14 @@ function createJwtToken(id: number): string {
   return jwt.sign({ id }, config.jwt.secretKey, {
     expiresIn: config.jwt.expiresInSec,
   });
+}
+
+function setToken(res: Response, token: string): void {
+  const options: CookieOptions = {
+    maxAge: config.jwt.expiresInSec * 1000,
+    httpOnly: true,
+    sameSite: "none",
+    secure: true,
+  };
+  res.cookie("token", token, options);
 }

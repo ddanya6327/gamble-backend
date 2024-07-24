@@ -6,12 +6,13 @@ import cors from "cors";
 import { config } from "../config";
 import { sequelize } from "./db/database";
 import { initSocket } from "./services/socket";
+import cookeiParser from "cookie-parser";
 
 import userRouter from "./router/users";
 import authRouter from "./router/auth";
 import betRouter from "./router/bets";
 
-import mypageRouter from "./router/mypage"; // TODO Pahse 1
+import frontRouter from "./router/front"; // TODO Pahse 1
 import path from "path";
 
 import * as betService from "./services/betService";
@@ -23,16 +24,21 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static("public"));
 
+const corsOption = {
+  credentials: true,
+};
+
 app.use(express.json());
+app.use(cookeiParser());
 app.use(helmet());
-app.use(cors());
+app.use(cors(corsOption));
 app.use(morgan("tiny"));
 
-app.use("/user", userRouter);
-app.use("/auth", authRouter);
-app.use("/bet", betRouter);
+app.use("/api/user", userRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/bet", betRouter);
 
-app.use("/mypage", mypageRouter); // TODO Phase 1
+app.use("/", frontRouter); // TODO Phase 1
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.sendStatus(404);

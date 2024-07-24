@@ -10,12 +10,21 @@ export const isAuth = async (
   res: Response,
   next: NextFunction
 ): Promise<Response | void> => {
+  let token: string | null = null;
+
   const authHeader: string | undefined = req.get("Authorization");
-  if (!(authHeader && authHeader.startsWith("Bearer "))) {
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    token = authHeader.split(" ")[1];
+  }
+
+  if (!token) {
+    token = req.cookies["token"];
+  }
+
+  if (!token) {
     return res.status(401).json(AUTH_ERROR);
   }
 
-  const token: string = authHeader.split(" ")[1];
   jwt.verify(token, config.jwt.secretKey, async (error, decoded) => {
     if (error) {
       return res.status(401).json(AUTH_ERROR);
