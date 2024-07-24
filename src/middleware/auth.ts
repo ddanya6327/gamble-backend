@@ -22,7 +22,7 @@ export const isAuth = async (
   }
 
   if (!token) {
-    return res.status(401).json(AUTH_ERROR);
+    return isFront(req, res) || res.status(401).json(AUTH_ERROR);
   }
 
   jwt.verify(token, config.jwt.secretKey, async (error, decoded) => {
@@ -36,4 +36,13 @@ export const isAuth = async (
     req.userId = user.id;
     next();
   });
+};
+
+// TODO Phase 1 専用
+const isFront = (req: Request, res: Response): false | void => {
+  if (!req.originalUrl.startsWith("/api/")) {
+    console.log("is front");
+    return res.redirect("/login");
+  }
+  return false;
 };

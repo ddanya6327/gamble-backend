@@ -1,3 +1,115 @@
 .hide {
   display: none;
 }
+
+/* Style the header and navigation bar */
+header {
+  background-color: #333;
+  color: white;
+  padding: 10px 0;
+}
+
+nav {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav ul {
+  display: flex;
+  gap: 10px;
+  padding-inline-start: 0;
+  margin: 4px;
+}
+
+nav ul.left {
+  flex: 1;
+}
+
+nav ul.right {
+  flex: 1;
+  justify-content: flex-end;
+}
+
+nav ul li {
+  padding: 5px 10px;
+  list-style: none;
+}
+
+nav ul li a,
+nav ul li span {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+/* form */
+body {
+  height: 100vh;
+  margin: 0;
+  max-width: 800px;
+}
+
+main.login,
+main.signup {
+  margin: 20% auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  width: 300px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+#login-error {
+  margin-bottom: 20px;
+  color: red;
+  display: none; /* Default to hide */
+}
+
+#login-error.show {
+  display: block; /* Show when there is an error */
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
